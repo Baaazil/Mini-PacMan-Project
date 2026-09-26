@@ -1,2 +1,3 @@
 # Mini-PacMan-Project
-If you've found yourself here this was a fun little project me and my partner created containing all the code used to program our STM32 MCU.
+If you've found yourself here this was a fun little project me and my partner created. This contains the final product of our code used to program our STM32 MCU into a working game of PacMan.
+If you have any interest in the other projects I've done check out [my website.](rylanlibes.com)
