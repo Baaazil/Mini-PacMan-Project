@@ -1,0 +1,6 @@
+"./Src/main.o"
+"./Src/ssd1306_fonts.o"
+"./Src/ssd1306_nohal.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Startup/startup_stm32l476rgtx.o"

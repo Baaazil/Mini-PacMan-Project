@@ -1,0 +1,1347 @@
+
+PacManProj.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000184  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         000007ac  08000184  08000184  00001184  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000794  08000930  08000930  00001930  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .ARM.extab    00000000  080010c4  080010c4  000020cc  2**0
+                  CONTENTS
+  4 .ARM          00000000  080010c4  080010c4  000020cc  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  080010c4  080010cc  000020cc  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  080010c4  080010c4  000020c4  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  080010c8  080010c8  000020c8  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         00000000  20000000  20000000  000020cc  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .sram2        00000000  10000000  10000000  000020cc  2**0
+                  CONTENTS
+ 10 .bss          00000424  20000000  20000000  00003000  2**2
+                  ALLOC
+ 11 ._user_heap_stack 00000604  20000424  20000424  00003000  2**0
+                  ALLOC
+ 12 .ARM.attributes 00000030  00000000  00000000  000020cc  2**0
+                  CONTENTS, READONLY
+ 13 .debug_info   000016b5  00000000  00000000  000020fc  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_abbrev 0000057d  00000000  00000000  000037b1  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_aranges 00000158  00000000  00000000  00003d30  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_rnglists 000000ef  00000000  00000000  00003e88  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_macro  0001d2d3  00000000  00000000  00003f77  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_line   00001c47  00000000  00000000  0002124a  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 19 .debug_str    000a2729  00000000  00000000  00022e91  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 20 .comment      00000043  00000000  00000000  000c55ba  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  0000048c  00000000  00000000  000c5600  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 22 .debug_line_str 00000086  00000000  00000000  000c5a8c  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000184 <__do_global_dtors_aux>:
+ 8000184:	b510      	push	{r4, lr}
+ 8000186:	4c05      	ldr	r4, [pc, #20]	@ (800019c <__do_global_dtors_aux+0x18>)
+ 8000188:	7823      	ldrb	r3, [r4, #0]
+ 800018a:	b933      	cbnz	r3, 800019a <__do_global_dtors_aux+0x16>
+ 800018c:	4b04      	ldr	r3, [pc, #16]	@ (80001a0 <__do_global_dtors_aux+0x1c>)
+ 800018e:	b113      	cbz	r3, 8000196 <__do_global_dtors_aux+0x12>
+ 8000190:	4804      	ldr	r0, [pc, #16]	@ (80001a4 <__do_global_dtors_aux+0x20>)
+ 8000192:	f3af 8000 	nop.w
+ 8000196:	2301      	movs	r3, #1
+ 8000198:	7023      	strb	r3, [r4, #0]
+ 800019a:	bd10      	pop	{r4, pc}
+ 800019c:	20000000 	.word	0x20000000
+ 80001a0:	00000000 	.word	0x00000000
+ 80001a4:	08000918 	.word	0x08000918
+
+080001a8 <frame_dummy>:
+ 80001a8:	b508      	push	{r3, lr}
+ 80001aa:	4b03      	ldr	r3, [pc, #12]	@ (80001b8 <frame_dummy+0x10>)
+ 80001ac:	b11b      	cbz	r3, 80001b6 <frame_dummy+0xe>
+ 80001ae:	4903      	ldr	r1, [pc, #12]	@ (80001bc <frame_dummy+0x14>)
+ 80001b0:	4803      	ldr	r0, [pc, #12]	@ (80001c0 <frame_dummy+0x18>)
+ 80001b2:	f3af 8000 	nop.w
+ 80001b6:	bd08      	pop	{r3, pc}
+ 80001b8:	00000000 	.word	0x00000000
+ 80001bc:	20000004 	.word	0x20000004
+ 80001c0:	08000918 	.word	0x08000918
+
+080001c4 <main>:
+static void System_Clock_Init(void);
+void I2C_Init(void);
+
+
+
+int main(void) {
+ 80001c4:	b580      	push	{r7, lr}
+ 80001c6:	b082      	sub	sp, #8
+ 80001c8:	af02      	add	r7, sp, #8
+    // Initialize clocks
+	System_Clock_Init();
+ 80001ca:	f000 f82d 	bl	8000228 <System_Clock_Init>
+	I2C_Init();
+ 80001ce:	f000 f885 	bl	80002dc <I2C_Init>
+	ssd1306_Init();
+ 80001d2:	f000 f951 	bl	8000478 <ssd1306_Init>
+	ssd1306_Fill(Black);
+ 80001d6:	2000      	movs	r0, #0
+ 80001d8:	f000 f9b4 	bl	8000544 <ssd1306_Fill>
+	ssd1306_SetCursor(0,0);
+ 80001dc:	2100      	movs	r1, #0
+ 80001de:	2000      	movs	r0, #0
+ 80001e0:	f000 fafa 	bl	80007d8 <ssd1306_SetCursor>
+	ssd1306_UpdateScreen();
+ 80001e4:	f000 f9c6 	bl	8000574 <ssd1306_UpdateScreen>
+	ssd1306_WriteString("Welcome to",Font_7x10,White);
+ 80001e8:	4b0c      	ldr	r3, [pc, #48]	@ (800021c <main+0x58>)
+ 80001ea:	2201      	movs	r2, #1
+ 80001ec:	9200      	str	r2, [sp, #0]
+ 80001ee:	cb0e      	ldmia	r3, {r1, r2, r3}
+ 80001f0:	480b      	ldr	r0, [pc, #44]	@ (8000220 <main+0x5c>)
+ 80001f2:	f000 facb 	bl	800078c <ssd1306_WriteString>
+	ssd1306_UpdateScreen();
+ 80001f6:	f000 f9bd 	bl	8000574 <ssd1306_UpdateScreen>
+	ssd1306_SetCursor(0,20);
+ 80001fa:	2114      	movs	r1, #20
+ 80001fc:	2000      	movs	r0, #0
+ 80001fe:	f000 faeb 	bl	80007d8 <ssd1306_SetCursor>
+	ssd1306_WriteString("EECE 344 class!",Font_7x10,White);
+ 8000202:	4b06      	ldr	r3, [pc, #24]	@ (800021c <main+0x58>)
+ 8000204:	2201      	movs	r2, #1
+ 8000206:	9200      	str	r2, [sp, #0]
+ 8000208:	cb0e      	ldmia	r3, {r1, r2, r3}
+ 800020a:	4806      	ldr	r0, [pc, #24]	@ (8000224 <main+0x60>)
+ 800020c:	f000 fabe 	bl	800078c <ssd1306_WriteString>
+	ssd1306_UpdateScreen();
+ 8000210:	f000 f9b0 	bl	8000574 <ssd1306_UpdateScreen>
+ 8000214:	2300      	movs	r3, #0
+
+}
+ 8000216:	4618      	mov	r0, r3
+ 8000218:	46bd      	mov	sp, r7
+ 800021a:	bd80      	pop	{r7, pc}
+ 800021c:	080010b8 	.word	0x080010b8
+ 8000220:	08000930 	.word	0x08000930
+ 8000224:	0800093c 	.word	0x0800093c
+
+08000228 <System_Clock_Init>:
+
+
+
+static void System_Clock_Init(void) {
+ 8000228:	b480      	push	{r7}
+ 800022a:	af00      	add	r7, sp, #0
+	// Set flash wait states to 4 to compensate for high clock speed
+	FLASH->ACR = (FLASH->ACR & ~FLASH_ACR_LATENCY) | FLASH_ACR_LATENCY_4WS;
+ 800022c:	4b28      	ldr	r3, [pc, #160]	@ (80002d0 <System_Clock_Init+0xa8>)
+ 800022e:	681b      	ldr	r3, [r3, #0]
+ 8000230:	f023 0307 	bic.w	r3, r3, #7
+ 8000234:	4a26      	ldr	r2, [pc, #152]	@ (80002d0 <System_Clock_Init+0xa8>)
+ 8000236:	f043 0304 	orr.w	r3, r3, #4
+ 800023a:	6013      	str	r3, [r2, #0]
+	// Enable HSI16
+	RCC->CR |= RCC_CR_HSION;
+ 800023c:	4b25      	ldr	r3, [pc, #148]	@ (80002d4 <System_Clock_Init+0xac>)
+ 800023e:	681b      	ldr	r3, [r3, #0]
+ 8000240:	4a24      	ldr	r2, [pc, #144]	@ (80002d4 <System_Clock_Init+0xac>)
+ 8000242:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 8000246:	6013      	str	r3, [r2, #0]
+	// Wait for HSI16 to be ready
+	while(!(RCC->CR & RCC_CR_HSIRDY));
+ 8000248:	bf00      	nop
+ 800024a:	4b22      	ldr	r3, [pc, #136]	@ (80002d4 <System_Clock_Init+0xac>)
+ 800024c:	681b      	ldr	r3, [r3, #0]
+ 800024e:	f403 6380 	and.w	r3, r3, #1024	@ 0x400
+ 8000252:	2b00      	cmp	r3, #0
+ 8000254:	d0f9      	beq.n	800024a <System_Clock_Init+0x22>
+	// Disable the PLL to allow configuration
+	RCC->CR &= ~RCC_CR_PLLON;
+ 8000256:	4b1f      	ldr	r3, [pc, #124]	@ (80002d4 <System_Clock_Init+0xac>)
+ 8000258:	681b      	ldr	r3, [r3, #0]
+ 800025a:	4a1e      	ldr	r2, [pc, #120]	@ (80002d4 <System_Clock_Init+0xac>)
+ 800025c:	f023 7380 	bic.w	r3, r3, #16777216	@ 0x1000000
+ 8000260:	6013      	str	r3, [r2, #0]
+	// Wait for PLL to be fully disabled
+	while(RCC->CR & RCC_CR_PLLRDY);
+ 8000262:	bf00      	nop
+ 8000264:	4b1b      	ldr	r3, [pc, #108]	@ (80002d4 <System_Clock_Init+0xac>)
+ 8000266:	681b      	ldr	r3, [r3, #0]
+ 8000268:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 800026c:	2b00      	cmp	r3, #0
+ 800026e:	d1f9      	bne.n	8000264 <System_Clock_Init+0x3c>
+	// Configure PLL: HSI16 as source, divide by 1, multiply by 9, divide by 2 to give 72MHz output,
+	// all outputs off
+	RCC->PLLCFGR = (RCC->PLLCFGR
+ 8000270:	4b18      	ldr	r3, [pc, #96]	@ (80002d4 <System_Clock_Init+0xac>)
+ 8000272:	68da      	ldr	r2, [r3, #12]
+			& ~(RCC_PLLCFGR_PLLSRC | RCC_PLLCFGR_PLLR | RCC_PLLCFGR_PLLN | RCC_PLLCFGR_PLLM
+ 8000274:	4b18      	ldr	r3, [pc, #96]	@ (80002d8 <System_Clock_Init+0xb0>)
+ 8000276:	4013      	ands	r3, r2
+	RCC->PLLCFGR = (RCC->PLLCFGR
+ 8000278:	4a16      	ldr	r2, [pc, #88]	@ (80002d4 <System_Clock_Init+0xac>)
+					| RCC_PLLCFGR_PLLQEN | RCC_PLLCFGR_PLLPEN | RCC_PLLCFGR_PLLREN))
+			| (0b10UL << RCC_PLLCFGR_PLLSRC_Pos) //HSI16 source
+			| (9UL << RCC_PLLCFGR_PLLN_Pos); // multiply by 9 (divisions by 1 and 2 set by clears)
+ 800027a:	f443 6310 	orr.w	r3, r3, #2304	@ 0x900
+ 800027e:	f043 0302 	orr.w	r3, r3, #2
+	RCC->PLLCFGR = (RCC->PLLCFGR
+ 8000282:	60d3      	str	r3, [r2, #12]
+	// Enable PLL
+	RCC->CR |= RCC_CR_PLLON;
+ 8000284:	4b13      	ldr	r3, [pc, #76]	@ (80002d4 <System_Clock_Init+0xac>)
+ 8000286:	681b      	ldr	r3, [r3, #0]
+ 8000288:	4a12      	ldr	r2, [pc, #72]	@ (80002d4 <System_Clock_Init+0xac>)
+ 800028a:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 800028e:	6013      	str	r3, [r2, #0]
+	// Wait for PLL to be fully enabled
+	while (!(RCC->CR & RCC_CR_PLLRDY));
+ 8000290:	bf00      	nop
+ 8000292:	4b10      	ldr	r3, [pc, #64]	@ (80002d4 <System_Clock_Init+0xac>)
+ 8000294:	681b      	ldr	r3, [r3, #0]
+ 8000296:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 800029a:	2b00      	cmp	r3, #0
+ 800029c:	d0f9      	beq.n	8000292 <System_Clock_Init+0x6a>
+	// Enable PLLR output (primary output)
+	RCC->PLLCFGR |= RCC_PLLCFGR_PLLREN;
+ 800029e:	4b0d      	ldr	r3, [pc, #52]	@ (80002d4 <System_Clock_Init+0xac>)
+ 80002a0:	68db      	ldr	r3, [r3, #12]
+ 80002a2:	4a0c      	ldr	r2, [pc, #48]	@ (80002d4 <System_Clock_Init+0xac>)
+ 80002a4:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 80002a8:	60d3      	str	r3, [r2, #12]
+	// Select PLL as system clock
+	RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | RCC_CFGR_SW_PLL;
+ 80002aa:	4b0a      	ldr	r3, [pc, #40]	@ (80002d4 <System_Clock_Init+0xac>)
+ 80002ac:	689b      	ldr	r3, [r3, #8]
+ 80002ae:	4a09      	ldr	r2, [pc, #36]	@ (80002d4 <System_Clock_Init+0xac>)
+ 80002b0:	f043 0303 	orr.w	r3, r3, #3
+ 80002b4:	6093      	str	r3, [r2, #8]
+	// Wait for clock switch to be complete
+	while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL);
+ 80002b6:	bf00      	nop
+ 80002b8:	4b06      	ldr	r3, [pc, #24]	@ (80002d4 <System_Clock_Init+0xac>)
+ 80002ba:	689b      	ldr	r3, [r3, #8]
+ 80002bc:	f003 030c 	and.w	r3, r3, #12
+ 80002c0:	2b0c      	cmp	r3, #12
+ 80002c2:	d1f9      	bne.n	80002b8 <System_Clock_Init+0x90>
+}
+ 80002c4:	bf00      	nop
+ 80002c6:	bf00      	nop
+ 80002c8:	46bd      	mov	sp, r7
+ 80002ca:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80002ce:	4770      	bx	lr
+ 80002d0:	40022000 	.word	0x40022000
+ 80002d4:	40021000 	.word	0x40021000
+ 80002d8:	f8ee808c 	.word	0xf8ee808c
+
+080002dc <I2C_Init>:
+
+// Initialize I2C1 for communication with the LCD screen.
+// Configuration is controller mode, fast mode, with the peripheral address set to 0x3C.
+void I2C_Init(void) {
+ 80002dc:	b480      	push	{r7}
+ 80002de:	af00      	add	r7, sp, #0
+	// Enable clock to port B
+	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
+ 80002e0:	4b29      	ldr	r3, [pc, #164]	@ (8000388 <I2C_Init+0xac>)
+ 80002e2:	6cdb      	ldr	r3, [r3, #76]	@ 0x4c
+ 80002e4:	4a28      	ldr	r2, [pc, #160]	@ (8000388 <I2C_Init+0xac>)
+ 80002e6:	f043 0302 	orr.w	r3, r3, #2
+ 80002ea:	64d3      	str	r3, [r2, #76]	@ 0x4c
+	// Set PB8 and PB9 to alternate function 4, I2C1
+	GPIOB->MODER = (GPIOA->MODER & ~(GPIO_MODER_MODE8 | GPIO_MODER_MODE9))
+ 80002ec:	f04f 4390 	mov.w	r3, #1207959552	@ 0x48000000
+ 80002f0:	681b      	ldr	r3, [r3, #0]
+ 80002f2:	f423 2370 	bic.w	r3, r3, #983040	@ 0xf0000
+ 80002f6:	4a25      	ldr	r2, [pc, #148]	@ (800038c <I2C_Init+0xb0>)
+			| (0b10UL << GPIO_MODER_MODE8_Pos) | (0b10UL << GPIO_MODER_MODE9_Pos);
+ 80002f8:	f443 2320 	orr.w	r3, r3, #655360	@ 0xa0000
+	GPIOB->MODER = (GPIOA->MODER & ~(GPIO_MODER_MODE8 | GPIO_MODER_MODE9))
+ 80002fc:	6013      	str	r3, [r2, #0]
+	GPIOB->AFR[1] = (GPIOA->AFR[1] & ~(GPIO_AFRH_AFSEL8 | GPIO_AFRH_AFSEL9))
+ 80002fe:	f04f 4390 	mov.w	r3, #1207959552	@ 0x48000000
+ 8000302:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 8000304:	f023 03ff 	bic.w	r3, r3, #255	@ 0xff
+ 8000308:	4a20      	ldr	r2, [pc, #128]	@ (800038c <I2C_Init+0xb0>)
+			| (4UL << GPIO_AFRH_AFSEL8_Pos) | (4UL << GPIO_AFRH_AFSEL9_Pos);
+ 800030a:	f043 0344 	orr.w	r3, r3, #68	@ 0x44
+	GPIOB->AFR[1] = (GPIOA->AFR[1] & ~(GPIO_AFRH_AFSEL8 | GPIO_AFRH_AFSEL9))
+ 800030e:	6253      	str	r3, [r2, #36]	@ 0x24
+	// Set PB8 and PB9 to high-speed, open-drain, pull-up
+	GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~(GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9))
+ 8000310:	4b1e      	ldr	r3, [pc, #120]	@ (800038c <I2C_Init+0xb0>)
+ 8000312:	689b      	ldr	r3, [r3, #8]
+ 8000314:	4a1d      	ldr	r2, [pc, #116]	@ (800038c <I2C_Init+0xb0>)
+			| (0b11UL << GPIO_OSPEEDR_OSPEED8_Pos) | (0b11UL << GPIO_OSPEEDR_OSPEED9_Pos);
+ 8000316:	f443 2370 	orr.w	r3, r3, #983040	@ 0xf0000
+	GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~(GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9))
+ 800031a:	6093      	str	r3, [r2, #8]
+	GPIOB->OTYPER |= GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9;
+ 800031c:	4b1b      	ldr	r3, [pc, #108]	@ (800038c <I2C_Init+0xb0>)
+ 800031e:	685b      	ldr	r3, [r3, #4]
+ 8000320:	4a1a      	ldr	r2, [pc, #104]	@ (800038c <I2C_Init+0xb0>)
+ 8000322:	f443 7340 	orr.w	r3, r3, #768	@ 0x300
+ 8000326:	6053      	str	r3, [r2, #4]
+	GPIOB->PUPDR = (GPIOB->PUPDR & ~(GPIO_PUPDR_PUPD8 | GPIO_PUPDR_PUPD9))
+ 8000328:	4b18      	ldr	r3, [pc, #96]	@ (800038c <I2C_Init+0xb0>)
+ 800032a:	68db      	ldr	r3, [r3, #12]
+ 800032c:	f423 2370 	bic.w	r3, r3, #983040	@ 0xf0000
+ 8000330:	4a16      	ldr	r2, [pc, #88]	@ (800038c <I2C_Init+0xb0>)
+			| (0b01UL << GPIO_PUPDR_PUPD8_Pos) | (0b01UL << GPIO_PUPDR_PUPD9_Pos);
+ 8000332:	f443 23a0 	orr.w	r3, r3, #327680	@ 0x50000
+	GPIOB->PUPDR = (GPIOB->PUPDR & ~(GPIO_PUPDR_PUPD8 | GPIO_PUPDR_PUPD9))
+ 8000336:	60d3      	str	r3, [r2, #12]
+	// Select SYSCLK (72MHz) as I2C1 input
+	RCC->CCIPR = (RCC->CCIPR & ~(RCC_CCIPR_I2C1SEL))
+ 8000338:	4b13      	ldr	r3, [pc, #76]	@ (8000388 <I2C_Init+0xac>)
+ 800033a:	f8d3 3088 	ldr.w	r3, [r3, #136]	@ 0x88
+ 800033e:	f423 5340 	bic.w	r3, r3, #12288	@ 0x3000
+ 8000342:	4a11      	ldr	r2, [pc, #68]	@ (8000388 <I2C_Init+0xac>)
+			| ((0b01 << RCC_CCIPR_I2C1SEL_Pos));
+ 8000344:	f443 5380 	orr.w	r3, r3, #4096	@ 0x1000
+	RCC->CCIPR = (RCC->CCIPR & ~(RCC_CCIPR_I2C1SEL))
+ 8000348:	f8c2 3088 	str.w	r3, [r2, #136]	@ 0x88
+	// Enable I2C1 clock
+	RCC->APB1ENR1 |= RCC_APB1ENR1_I2C1EN;
+ 800034c:	4b0e      	ldr	r3, [pc, #56]	@ (8000388 <I2C_Init+0xac>)
+ 800034e:	6d9b      	ldr	r3, [r3, #88]	@ 0x58
+ 8000350:	4a0d      	ldr	r2, [pc, #52]	@ (8000388 <I2C_Init+0xac>)
+ 8000352:	f443 1300 	orr.w	r3, r3, #2097152	@ 0x200000
+ 8000356:	6593      	str	r3, [r2, #88]	@ 0x58
+	// Set TIMINGR for fast mode, 72MHz input clock (constant generated by STM32CubeMX)
+	// standard: 0x10C18DCC
+	// fast: 0x00E12573
+	I2C1->TIMINGR = 0x00E12573;
+ 8000358:	4b0d      	ldr	r3, [pc, #52]	@ (8000390 <I2C_Init+0xb4>)
+ 800035a:	4a0e      	ldr	r2, [pc, #56]	@ (8000394 <I2C_Init+0xb8>)
+ 800035c:	611a      	str	r2, [r3, #16]
+	// Enable I2C1
+	I2C1->CR1 |= I2C_CR1_PE;
+ 800035e:	4b0c      	ldr	r3, [pc, #48]	@ (8000390 <I2C_Init+0xb4>)
+ 8000360:	681b      	ldr	r3, [r3, #0]
+ 8000362:	4a0b      	ldr	r2, [pc, #44]	@ (8000390 <I2C_Init+0xb4>)
+ 8000364:	f043 0301 	orr.w	r3, r3, #1
+ 8000368:	6013      	str	r3, [r2, #0]
+	// Set peripheral address to 0x3C, the LCD's address
+	I2C1->CR2 = (I2C1->CR2 & ~(I2C_CR2_SADD))
+ 800036a:	4b09      	ldr	r3, [pc, #36]	@ (8000390 <I2C_Init+0xb4>)
+ 800036c:	685b      	ldr	r3, [r3, #4]
+ 800036e:	f423 737f 	bic.w	r3, r3, #1020	@ 0x3fc
+ 8000372:	f023 0303 	bic.w	r3, r3, #3
+ 8000376:	4a06      	ldr	r2, [pc, #24]	@ (8000390 <I2C_Init+0xb4>)
+			| (0x3CUL << (I2C_CR2_SADD_Pos + 1)); //SADD[0] is a don't care in 7-bit addressing mode
+ 8000378:	f043 0378 	orr.w	r3, r3, #120	@ 0x78
+	I2C1->CR2 = (I2C1->CR2 & ~(I2C_CR2_SADD))
+ 800037c:	6053      	str	r3, [r2, #4]
+}
+ 800037e:	bf00      	nop
+ 8000380:	46bd      	mov	sp, r7
+ 8000382:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000386:	4770      	bx	lr
+ 8000388:	40021000 	.word	0x40021000
+ 800038c:	48000400 	.word	0x48000400
+ 8000390:	40005400 	.word	0x40005400
+ 8000394:	00e12573 	.word	0x00e12573
+
+08000398 <i2c_mem_write>:
+#include <string.h>  // For memcpy
+
+// Send data to LCD over I2C1
+// buff_size must be <= 254, which for this application it is
+// Fixing that would require dealing with RELOAD
+static void i2c_mem_write(uint8_t reg_address, uint8_t* buffer, uint8_t buff_size) {
+ 8000398:	b480      	push	{r7}
+ 800039a:	b085      	sub	sp, #20
+ 800039c:	af00      	add	r7, sp, #0
+ 800039e:	4603      	mov	r3, r0
+ 80003a0:	6039      	str	r1, [r7, #0]
+ 80003a2:	71fb      	strb	r3, [r7, #7]
+ 80003a4:	4613      	mov	r3, r2
+ 80003a6:	71bb      	strb	r3, [r7, #6]
+	// Structure: START, write reg_address, write data, STOP
+	int nBytes = buff_size + 1;
+ 80003a8:	79bb      	ldrb	r3, [r7, #6]
+ 80003aa:	3301      	adds	r3, #1
+ 80003ac:	60bb      	str	r3, [r7, #8]
+	I2C1->CR2 = (I2C1->CR2 & ~(I2C_CR2_RELOAD | I2C_CR2_NBYTES | I2C_CR2_RD_WRN))
+ 80003ae:	4b21      	ldr	r3, [pc, #132]	@ (8000434 <i2c_mem_write+0x9c>)
+ 80003b0:	685b      	ldr	r3, [r3, #4]
+ 80003b2:	f023 73ff 	bic.w	r3, r3, #33423360	@ 0x1fe0000
+ 80003b6:	f423 3382 	bic.w	r3, r3, #66560	@ 0x10400
+			| (nBytes << I2C_CR2_NBYTES_Pos) | I2C_CR2_START | I2C_CR2_AUTOEND;
+ 80003ba:	68ba      	ldr	r2, [r7, #8]
+ 80003bc:	0412      	lsls	r2, r2, #16
+ 80003be:	4313      	orrs	r3, r2
+	I2C1->CR2 = (I2C1->CR2 & ~(I2C_CR2_RELOAD | I2C_CR2_NBYTES | I2C_CR2_RD_WRN))
+ 80003c0:	4a1c      	ldr	r2, [pc, #112]	@ (8000434 <i2c_mem_write+0x9c>)
+			| (nBytes << I2C_CR2_NBYTES_Pos) | I2C_CR2_START | I2C_CR2_AUTOEND;
+ 80003c2:	f043 7300 	orr.w	r3, r3, #33554432	@ 0x2000000
+ 80003c6:	f443 5300 	orr.w	r3, r3, #8192	@ 0x2000
+	I2C1->CR2 = (I2C1->CR2 & ~(I2C_CR2_RELOAD | I2C_CR2_NBYTES | I2C_CR2_RD_WRN))
+ 80003ca:	6053      	str	r3, [r2, #4]
+	// Wait for slave address to be sent
+	while (!(I2C1->ISR & I2C_ISR_TXIS));
+ 80003cc:	bf00      	nop
+ 80003ce:	4b19      	ldr	r3, [pc, #100]	@ (8000434 <i2c_mem_write+0x9c>)
+ 80003d0:	699b      	ldr	r3, [r3, #24]
+ 80003d2:	f003 0302 	and.w	r3, r3, #2
+ 80003d6:	2b00      	cmp	r3, #0
+ 80003d8:	d0f9      	beq.n	80003ce <i2c_mem_write+0x36>
+	// Write register address
+	I2C1->TXDR = reg_address;
+ 80003da:	4a16      	ldr	r2, [pc, #88]	@ (8000434 <i2c_mem_write+0x9c>)
+ 80003dc:	79fb      	ldrb	r3, [r7, #7]
+ 80003de:	6293      	str	r3, [r2, #40]	@ 0x28
+	// Send rest of the data
+	for (int i = 0; i < buff_size; i++) {
+ 80003e0:	2300      	movs	r3, #0
+ 80003e2:	60fb      	str	r3, [r7, #12]
+ 80003e4:	e00f      	b.n	8000406 <i2c_mem_write+0x6e>
+		// Wait for previous byte to be sent
+		while (!(I2C1->ISR & I2C_ISR_TXIS));
+ 80003e6:	bf00      	nop
+ 80003e8:	4b12      	ldr	r3, [pc, #72]	@ (8000434 <i2c_mem_write+0x9c>)
+ 80003ea:	699b      	ldr	r3, [r3, #24]
+ 80003ec:	f003 0302 	and.w	r3, r3, #2
+ 80003f0:	2b00      	cmp	r3, #0
+ 80003f2:	d0f9      	beq.n	80003e8 <i2c_mem_write+0x50>
+		// Send new byte
+		I2C1->TXDR = buffer[i];
+ 80003f4:	68fb      	ldr	r3, [r7, #12]
+ 80003f6:	683a      	ldr	r2, [r7, #0]
+ 80003f8:	4413      	add	r3, r2
+ 80003fa:	781a      	ldrb	r2, [r3, #0]
+ 80003fc:	4b0d      	ldr	r3, [pc, #52]	@ (8000434 <i2c_mem_write+0x9c>)
+ 80003fe:	629a      	str	r2, [r3, #40]	@ 0x28
+	for (int i = 0; i < buff_size; i++) {
+ 8000400:	68fb      	ldr	r3, [r7, #12]
+ 8000402:	3301      	adds	r3, #1
+ 8000404:	60fb      	str	r3, [r7, #12]
+ 8000406:	79bb      	ldrb	r3, [r7, #6]
+ 8000408:	68fa      	ldr	r2, [r7, #12]
+ 800040a:	429a      	cmp	r2, r3
+ 800040c:	dbeb      	blt.n	80003e6 <i2c_mem_write+0x4e>
+	}
+	// Wait for stop
+	while (!(I2C1->ISR & I2C_ISR_STOPF));
+ 800040e:	bf00      	nop
+ 8000410:	4b08      	ldr	r3, [pc, #32]	@ (8000434 <i2c_mem_write+0x9c>)
+ 8000412:	699b      	ldr	r3, [r3, #24]
+ 8000414:	f003 0320 	and.w	r3, r3, #32
+ 8000418:	2b00      	cmp	r3, #0
+ 800041a:	d0f9      	beq.n	8000410 <i2c_mem_write+0x78>
+	// Clear stop
+	I2C1->ICR |= I2C_ICR_STOPCF;
+ 800041c:	4b05      	ldr	r3, [pc, #20]	@ (8000434 <i2c_mem_write+0x9c>)
+ 800041e:	69db      	ldr	r3, [r3, #28]
+ 8000420:	4a04      	ldr	r2, [pc, #16]	@ (8000434 <i2c_mem_write+0x9c>)
+ 8000422:	f043 0320 	orr.w	r3, r3, #32
+ 8000426:	61d3      	str	r3, [r2, #28]
+}
+ 8000428:	bf00      	nop
+ 800042a:	3714      	adds	r7, #20
+ 800042c:	46bd      	mov	sp, r7
+ 800042e:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000432:	4770      	bx	lr
+ 8000434:	40005400 	.word	0x40005400
+
+08000438 <ssd1306_WriteCommand>:
+
+// Send a byte to the command register
+void ssd1306_WriteCommand(uint8_t byte) {
+ 8000438:	b580      	push	{r7, lr}
+ 800043a:	b082      	sub	sp, #8
+ 800043c:	af00      	add	r7, sp, #0
+ 800043e:	4603      	mov	r3, r0
+ 8000440:	71fb      	strb	r3, [r7, #7]
+	i2c_mem_write(0x00, &byte, 1);
+ 8000442:	1dfb      	adds	r3, r7, #7
+ 8000444:	2201      	movs	r2, #1
+ 8000446:	4619      	mov	r1, r3
+ 8000448:	2000      	movs	r0, #0
+ 800044a:	f7ff ffa5 	bl	8000398 <i2c_mem_write>
+}
+ 800044e:	bf00      	nop
+ 8000450:	3708      	adds	r7, #8
+ 8000452:	46bd      	mov	sp, r7
+ 8000454:	bd80      	pop	{r7, pc}
+
+08000456 <ssd1306_WriteData>:
+
+// Send data
+void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
+ 8000456:	b580      	push	{r7, lr}
+ 8000458:	b082      	sub	sp, #8
+ 800045a:	af00      	add	r7, sp, #0
+ 800045c:	6078      	str	r0, [r7, #4]
+ 800045e:	6039      	str	r1, [r7, #0]
+	i2c_mem_write(0x40, buffer, buff_size);
+ 8000460:	683b      	ldr	r3, [r7, #0]
+ 8000462:	b2db      	uxtb	r3, r3
+ 8000464:	461a      	mov	r2, r3
+ 8000466:	6879      	ldr	r1, [r7, #4]
+ 8000468:	2040      	movs	r0, #64	@ 0x40
+ 800046a:	f7ff ff95 	bl	8000398 <i2c_mem_write>
+}
+ 800046e:	bf00      	nop
+ 8000470:	3708      	adds	r7, #8
+ 8000472:	46bd      	mov	sp, r7
+ 8000474:	bd80      	pop	{r7, pc}
+	...
+
+08000478 <ssd1306_Init>:
+    }
+    return ret;
+}
+
+/* Initialize the oled screen */
+void ssd1306_Init(void) {
+ 8000478:	b580      	push	{r7, lr}
+ 800047a:	af00      	add	r7, sp, #0
+    // Init OLED
+    ssd1306_SetDisplayOn(0); //display off
+ 800047c:	2000      	movs	r0, #0
+ 800047e:	f000 f9d7 	bl	8000830 <ssd1306_SetDisplayOn>
+
+    ssd1306_WriteCommand(0x20); //Set Memory Addressing Mode
+ 8000482:	2020      	movs	r0, #32
+ 8000484:	f7ff ffd8 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x00); // 00b,Horizontal Addressing Mode; 01b,Vertical Addressing Mode;
+ 8000488:	2000      	movs	r0, #0
+ 800048a:	f7ff ffd5 	bl	8000438 <ssd1306_WriteCommand>
+                                // 10b,Page Addressing Mode (RESET); 11b,Invalid
+
+    ssd1306_WriteCommand(0xB0); //Set Page Start Address for Page Addressing Mode,0-7
+ 800048e:	20b0      	movs	r0, #176	@ 0xb0
+ 8000490:	f7ff ffd2 	bl	8000438 <ssd1306_WriteCommand>
+
+#ifdef SSD1306_MIRROR_VERT
+    ssd1306_WriteCommand(0xC0); // Mirror vertically
+#else
+    ssd1306_WriteCommand(0xC8); //Set COM Output Scan Direction
+ 8000494:	20c8      	movs	r0, #200	@ 0xc8
+ 8000496:	f7ff ffcf 	bl	8000438 <ssd1306_WriteCommand>
+#endif
+
+    ssd1306_WriteCommand(0x00); //---set low column address
+ 800049a:	2000      	movs	r0, #0
+ 800049c:	f7ff ffcc 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x10); //---set high column address
+ 80004a0:	2010      	movs	r0, #16
+ 80004a2:	f7ff ffc9 	bl	8000438 <ssd1306_WriteCommand>
+
+    ssd1306_WriteCommand(0x40); //--set start line address - CHECK
+ 80004a6:	2040      	movs	r0, #64	@ 0x40
+ 80004a8:	f7ff ffc6 	bl	8000438 <ssd1306_WriteCommand>
+
+    ssd1306_SetContrast(0xFF);
+ 80004ac:	20ff      	movs	r0, #255	@ 0xff
+ 80004ae:	f000 f9ab 	bl	8000808 <ssd1306_SetContrast>
+
+#ifdef SSD1306_MIRROR_HORIZ
+    ssd1306_WriteCommand(0xA0); // Mirror horizontally
+#else
+    ssd1306_WriteCommand(0xA1); //--set segment re-map 0 to 127 - CHECK
+ 80004b2:	20a1      	movs	r0, #161	@ 0xa1
+ 80004b4:	f7ff ffc0 	bl	8000438 <ssd1306_WriteCommand>
+#endif
+
+#ifdef SSD1306_INVERSE_COLOR
+    ssd1306_WriteCommand(0xA7); //--set inverse color
+#else
+    ssd1306_WriteCommand(0xA6); //--set normal color
+ 80004b8:	20a6      	movs	r0, #166	@ 0xa6
+ 80004ba:	f7ff ffbd 	bl	8000438 <ssd1306_WriteCommand>
+// Set multiplex ratio.
+#if (SSD1306_HEIGHT == 128)
+    // Found in the Luma Python lib for SH1106.
+    ssd1306_WriteCommand(0xFF);
+#else
+    ssd1306_WriteCommand(0xA8); //--set multiplex ratio(1 to 64) - CHECK
+ 80004be:	20a8      	movs	r0, #168	@ 0xa8
+ 80004c0:	f7ff ffba 	bl	8000438 <ssd1306_WriteCommand>
+#endif
+
+#if (SSD1306_HEIGHT == 32)
+    ssd1306_WriteCommand(0x1F); //
+#elif (SSD1306_HEIGHT == 64)
+    ssd1306_WriteCommand(0x3F); //
+ 80004c4:	203f      	movs	r0, #63	@ 0x3f
+ 80004c6:	f7ff ffb7 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x3F); // Seems to work for 128px high displays too.
+#else
+#error "Only 32, 64, or 128 lines of height are supported!"
+#endif
+
+    ssd1306_WriteCommand(0xA4); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content
+ 80004ca:	20a4      	movs	r0, #164	@ 0xa4
+ 80004cc:	f7ff ffb4 	bl	8000438 <ssd1306_WriteCommand>
+
+    ssd1306_WriteCommand(0xD3); //-set display offset - CHECK
+ 80004d0:	20d3      	movs	r0, #211	@ 0xd3
+ 80004d2:	f7ff ffb1 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x00); //-not offset
+ 80004d6:	2000      	movs	r0, #0
+ 80004d8:	f7ff ffae 	bl	8000438 <ssd1306_WriteCommand>
+
+    ssd1306_WriteCommand(0xD5); //--set display clock divide ratio/oscillator frequency
+ 80004dc:	20d5      	movs	r0, #213	@ 0xd5
+ 80004de:	f7ff ffab 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0xF0); //--set divide ratio
+ 80004e2:	20f0      	movs	r0, #240	@ 0xf0
+ 80004e4:	f7ff ffa8 	bl	8000438 <ssd1306_WriteCommand>
+
+    ssd1306_WriteCommand(0xD9); //--set pre-charge period
+ 80004e8:	20d9      	movs	r0, #217	@ 0xd9
+ 80004ea:	f7ff ffa5 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x22); //
+ 80004ee:	2022      	movs	r0, #34	@ 0x22
+ 80004f0:	f7ff ffa2 	bl	8000438 <ssd1306_WriteCommand>
+
+    ssd1306_WriteCommand(0xDA); //--set com pins hardware configuration - CHECK
+ 80004f4:	20da      	movs	r0, #218	@ 0xda
+ 80004f6:	f7ff ff9f 	bl	8000438 <ssd1306_WriteCommand>
+#if (SSD1306_HEIGHT == 32)
+    ssd1306_WriteCommand(0x02);
+#elif (SSD1306_HEIGHT == 64)
+    ssd1306_WriteCommand(0x12);
+ 80004fa:	2012      	movs	r0, #18
+ 80004fc:	f7ff ff9c 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x12);
+#else
+#error "Only 32, 64, or 128 lines of height are supported!"
+#endif
+
+    ssd1306_WriteCommand(0xDB); //--set vcomh
+ 8000500:	20db      	movs	r0, #219	@ 0xdb
+ 8000502:	f7ff ff99 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x20); //0x20,0.77xVcc
+ 8000506:	2020      	movs	r0, #32
+ 8000508:	f7ff ff96 	bl	8000438 <ssd1306_WriteCommand>
+
+    ssd1306_WriteCommand(0x8D); //--set DC-DC enable
+ 800050c:	208d      	movs	r0, #141	@ 0x8d
+ 800050e:	f7ff ff93 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(0x14); //
+ 8000512:	2014      	movs	r0, #20
+ 8000514:	f7ff ff90 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_SetDisplayOn(1); //--turn on SSD1306 panel
+ 8000518:	2001      	movs	r0, #1
+ 800051a:	f000 f989 	bl	8000830 <ssd1306_SetDisplayOn>
+
+    // Clear screen
+    ssd1306_Fill(Black);
+ 800051e:	2000      	movs	r0, #0
+ 8000520:	f000 f810 	bl	8000544 <ssd1306_Fill>
+
+    // Flush buffer to screen
+    ssd1306_UpdateScreen();
+ 8000524:	f000 f826 	bl	8000574 <ssd1306_UpdateScreen>
+
+    // Set default values for screen object
+    SSD1306.CurrentX = 0;
+ 8000528:	4b05      	ldr	r3, [pc, #20]	@ (8000540 <ssd1306_Init+0xc8>)
+ 800052a:	2200      	movs	r2, #0
+ 800052c:	801a      	strh	r2, [r3, #0]
+    SSD1306.CurrentY = 0;
+ 800052e:	4b04      	ldr	r3, [pc, #16]	@ (8000540 <ssd1306_Init+0xc8>)
+ 8000530:	2200      	movs	r2, #0
+ 8000532:	805a      	strh	r2, [r3, #2]
+
+    SSD1306.Initialized = 1;
+ 8000534:	4b02      	ldr	r3, [pc, #8]	@ (8000540 <ssd1306_Init+0xc8>)
+ 8000536:	2201      	movs	r2, #1
+ 8000538:	711a      	strb	r2, [r3, #4]
+}
+ 800053a:	bf00      	nop
+ 800053c:	bd80      	pop	{r7, pc}
+ 800053e:	bf00      	nop
+ 8000540:	2000041c 	.word	0x2000041c
+
+08000544 <ssd1306_Fill>:
+
+/* Fill the whole screen with the given color */
+void ssd1306_Fill(SSD1306_COLOR color) {
+ 8000544:	b580      	push	{r7, lr}
+ 8000546:	b082      	sub	sp, #8
+ 8000548:	af00      	add	r7, sp, #0
+ 800054a:	4603      	mov	r3, r0
+ 800054c:	71fb      	strb	r3, [r7, #7]
+    memset(SSD1306_Buffer, (color == Black) ? 0x00 : 0xFF, sizeof(SSD1306_Buffer));
+ 800054e:	79fb      	ldrb	r3, [r7, #7]
+ 8000550:	2b00      	cmp	r3, #0
+ 8000552:	d101      	bne.n	8000558 <ssd1306_Fill+0x14>
+ 8000554:	2300      	movs	r3, #0
+ 8000556:	e000      	b.n	800055a <ssd1306_Fill+0x16>
+ 8000558:	23ff      	movs	r3, #255	@ 0xff
+ 800055a:	f44f 6280 	mov.w	r2, #1024	@ 0x400
+ 800055e:	4619      	mov	r1, r3
+ 8000560:	4803      	ldr	r0, [pc, #12]	@ (8000570 <ssd1306_Fill+0x2c>)
+ 8000562:	f000 f9ac 	bl	80008be <memset>
+}
+ 8000566:	bf00      	nop
+ 8000568:	3708      	adds	r7, #8
+ 800056a:	46bd      	mov	sp, r7
+ 800056c:	bd80      	pop	{r7, pc}
+ 800056e:	bf00      	nop
+ 8000570:	2000001c 	.word	0x2000001c
+
+08000574 <ssd1306_UpdateScreen>:
+
+/* Write the screenbuffer with changed to the screen */
+void ssd1306_UpdateScreen(void) {
+ 8000574:	b580      	push	{r7, lr}
+ 8000576:	b082      	sub	sp, #8
+ 8000578:	af00      	add	r7, sp, #0
+    // depends on the screen height:
+    //
+    //  * 32px   ==  4 pages
+    //  * 64px   ==  8 pages
+    //  * 128px  ==  16 pages
+    for(uint8_t i = 0; i < SSD1306_HEIGHT/8; i++) {
+ 800057a:	2300      	movs	r3, #0
+ 800057c:	71fb      	strb	r3, [r7, #7]
+ 800057e:	e016      	b.n	80005ae <ssd1306_UpdateScreen+0x3a>
+        ssd1306_WriteCommand(0xB0 + i); // Set the current RAM page address.
+ 8000580:	79fb      	ldrb	r3, [r7, #7]
+ 8000582:	3b50      	subs	r3, #80	@ 0x50
+ 8000584:	b2db      	uxtb	r3, r3
+ 8000586:	4618      	mov	r0, r3
+ 8000588:	f7ff ff56 	bl	8000438 <ssd1306_WriteCommand>
+        ssd1306_WriteCommand(0x00 + SSD1306_X_OFFSET_LOWER);
+ 800058c:	2000      	movs	r0, #0
+ 800058e:	f7ff ff53 	bl	8000438 <ssd1306_WriteCommand>
+        ssd1306_WriteCommand(0x10 + SSD1306_X_OFFSET_UPPER);
+ 8000592:	2010      	movs	r0, #16
+ 8000594:	f7ff ff50 	bl	8000438 <ssd1306_WriteCommand>
+        ssd1306_WriteData(&SSD1306_Buffer[SSD1306_WIDTH*i],SSD1306_WIDTH);
+ 8000598:	79fb      	ldrb	r3, [r7, #7]
+ 800059a:	01db      	lsls	r3, r3, #7
+ 800059c:	4a08      	ldr	r2, [pc, #32]	@ (80005c0 <ssd1306_UpdateScreen+0x4c>)
+ 800059e:	4413      	add	r3, r2
+ 80005a0:	2180      	movs	r1, #128	@ 0x80
+ 80005a2:	4618      	mov	r0, r3
+ 80005a4:	f7ff ff57 	bl	8000456 <ssd1306_WriteData>
+    for(uint8_t i = 0; i < SSD1306_HEIGHT/8; i++) {
+ 80005a8:	79fb      	ldrb	r3, [r7, #7]
+ 80005aa:	3301      	adds	r3, #1
+ 80005ac:	71fb      	strb	r3, [r7, #7]
+ 80005ae:	79fb      	ldrb	r3, [r7, #7]
+ 80005b0:	2b07      	cmp	r3, #7
+ 80005b2:	d9e5      	bls.n	8000580 <ssd1306_UpdateScreen+0xc>
+    }
+}
+ 80005b4:	bf00      	nop
+ 80005b6:	bf00      	nop
+ 80005b8:	3708      	adds	r7, #8
+ 80005ba:	46bd      	mov	sp, r7
+ 80005bc:	bd80      	pop	{r7, pc}
+ 80005be:	bf00      	nop
+ 80005c0:	2000001c 	.word	0x2000001c
+
+080005c4 <ssd1306_DrawPixel>:
+ * Draw one pixel in the screenbuffer
+ * X => X Coordinate
+ * Y => Y Coordinate
+ * color => Pixel color
+ */
+void ssd1306_DrawPixel(uint8_t x, uint8_t y, SSD1306_COLOR color) {
+ 80005c4:	b480      	push	{r7}
+ 80005c6:	b083      	sub	sp, #12
+ 80005c8:	af00      	add	r7, sp, #0
+ 80005ca:	4603      	mov	r3, r0
+ 80005cc:	71fb      	strb	r3, [r7, #7]
+ 80005ce:	460b      	mov	r3, r1
+ 80005d0:	71bb      	strb	r3, [r7, #6]
+ 80005d2:	4613      	mov	r3, r2
+ 80005d4:	717b      	strb	r3, [r7, #5]
+    if(x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT) {
+ 80005d6:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 80005da:	2b00      	cmp	r3, #0
+ 80005dc:	db3d      	blt.n	800065a <ssd1306_DrawPixel+0x96>
+ 80005de:	79bb      	ldrb	r3, [r7, #6]
+ 80005e0:	2b3f      	cmp	r3, #63	@ 0x3f
+ 80005e2:	d83a      	bhi.n	800065a <ssd1306_DrawPixel+0x96>
+        // Don't write outside the buffer
+        return;
+    }
+
+    // Draw in the right color
+    if(color == White) {
+ 80005e4:	797b      	ldrb	r3, [r7, #5]
+ 80005e6:	2b01      	cmp	r3, #1
+ 80005e8:	d11a      	bne.n	8000620 <ssd1306_DrawPixel+0x5c>
+        SSD1306_Buffer[x + (y / 8) * SSD1306_WIDTH] |= 1 << (y % 8);
+ 80005ea:	79fa      	ldrb	r2, [r7, #7]
+ 80005ec:	79bb      	ldrb	r3, [r7, #6]
+ 80005ee:	08db      	lsrs	r3, r3, #3
+ 80005f0:	b2d8      	uxtb	r0, r3
+ 80005f2:	4603      	mov	r3, r0
+ 80005f4:	01db      	lsls	r3, r3, #7
+ 80005f6:	4413      	add	r3, r2
+ 80005f8:	4a1b      	ldr	r2, [pc, #108]	@ (8000668 <ssd1306_DrawPixel+0xa4>)
+ 80005fa:	5cd3      	ldrb	r3, [r2, r3]
+ 80005fc:	b25a      	sxtb	r2, r3
+ 80005fe:	79bb      	ldrb	r3, [r7, #6]
+ 8000600:	f003 0307 	and.w	r3, r3, #7
+ 8000604:	2101      	movs	r1, #1
+ 8000606:	fa01 f303 	lsl.w	r3, r1, r3
+ 800060a:	b25b      	sxtb	r3, r3
+ 800060c:	4313      	orrs	r3, r2
+ 800060e:	b259      	sxtb	r1, r3
+ 8000610:	79fa      	ldrb	r2, [r7, #7]
+ 8000612:	4603      	mov	r3, r0
+ 8000614:	01db      	lsls	r3, r3, #7
+ 8000616:	4413      	add	r3, r2
+ 8000618:	b2c9      	uxtb	r1, r1
+ 800061a:	4a13      	ldr	r2, [pc, #76]	@ (8000668 <ssd1306_DrawPixel+0xa4>)
+ 800061c:	54d1      	strb	r1, [r2, r3]
+ 800061e:	e01d      	b.n	800065c <ssd1306_DrawPixel+0x98>
+    } else {
+        SSD1306_Buffer[x + (y / 8) * SSD1306_WIDTH] &= ~(1 << (y % 8));
+ 8000620:	79fa      	ldrb	r2, [r7, #7]
+ 8000622:	79bb      	ldrb	r3, [r7, #6]
+ 8000624:	08db      	lsrs	r3, r3, #3
+ 8000626:	b2d8      	uxtb	r0, r3
+ 8000628:	4603      	mov	r3, r0
+ 800062a:	01db      	lsls	r3, r3, #7
+ 800062c:	4413      	add	r3, r2
+ 800062e:	4a0e      	ldr	r2, [pc, #56]	@ (8000668 <ssd1306_DrawPixel+0xa4>)
+ 8000630:	5cd3      	ldrb	r3, [r2, r3]
+ 8000632:	b25a      	sxtb	r2, r3
+ 8000634:	79bb      	ldrb	r3, [r7, #6]
+ 8000636:	f003 0307 	and.w	r3, r3, #7
+ 800063a:	2101      	movs	r1, #1
+ 800063c:	fa01 f303 	lsl.w	r3, r1, r3
+ 8000640:	b25b      	sxtb	r3, r3
+ 8000642:	43db      	mvns	r3, r3
+ 8000644:	b25b      	sxtb	r3, r3
+ 8000646:	4013      	ands	r3, r2
+ 8000648:	b259      	sxtb	r1, r3
+ 800064a:	79fa      	ldrb	r2, [r7, #7]
+ 800064c:	4603      	mov	r3, r0
+ 800064e:	01db      	lsls	r3, r3, #7
+ 8000650:	4413      	add	r3, r2
+ 8000652:	b2c9      	uxtb	r1, r1
+ 8000654:	4a04      	ldr	r2, [pc, #16]	@ (8000668 <ssd1306_DrawPixel+0xa4>)
+ 8000656:	54d1      	strb	r1, [r2, r3]
+ 8000658:	e000      	b.n	800065c <ssd1306_DrawPixel+0x98>
+        return;
+ 800065a:	bf00      	nop
+    }
+}
+ 800065c:	370c      	adds	r7, #12
+ 800065e:	46bd      	mov	sp, r7
+ 8000660:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000664:	4770      	bx	lr
+ 8000666:	bf00      	nop
+ 8000668:	2000001c 	.word	0x2000001c
+
+0800066c <ssd1306_WriteChar>:
+ * Draw 1 char to the screen buffer
+ * ch       => char om weg te schrijven
+ * Font     => Font waarmee we gaan schrijven
+ * color    => Black or White
+ */
+char ssd1306_WriteChar(char ch, SSD1306_Font_t Font, SSD1306_COLOR color) {
+ 800066c:	b590      	push	{r4, r7, lr}
+ 800066e:	b089      	sub	sp, #36	@ 0x24
+ 8000670:	af00      	add	r7, sp, #0
+ 8000672:	4604      	mov	r4, r0
+ 8000674:	4638      	mov	r0, r7
+ 8000676:	e880 000e 	stmia.w	r0, {r1, r2, r3}
+ 800067a:	4623      	mov	r3, r4
+ 800067c:	73fb      	strb	r3, [r7, #15]
+    uint32_t i, b, j;
+
+    // Check if character is valid
+    if (ch < 32 || ch > 126)
+ 800067e:	7bfb      	ldrb	r3, [r7, #15]
+ 8000680:	2b1f      	cmp	r3, #31
+ 8000682:	d902      	bls.n	800068a <ssd1306_WriteChar+0x1e>
+ 8000684:	7bfb      	ldrb	r3, [r7, #15]
+ 8000686:	2b7e      	cmp	r3, #126	@ 0x7e
+ 8000688:	d901      	bls.n	800068e <ssd1306_WriteChar+0x22>
+        return 0;
+ 800068a:	2300      	movs	r3, #0
+ 800068c:	e077      	b.n	800077e <ssd1306_WriteChar+0x112>
+
+    // Check remaining space on current line
+    if (SSD1306_WIDTH < (SSD1306.CurrentX + Font.width) ||
+ 800068e:	4b3e      	ldr	r3, [pc, #248]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 8000690:	881b      	ldrh	r3, [r3, #0]
+ 8000692:	461a      	mov	r2, r3
+ 8000694:	783b      	ldrb	r3, [r7, #0]
+ 8000696:	4413      	add	r3, r2
+ 8000698:	2b80      	cmp	r3, #128	@ 0x80
+ 800069a:	dc06      	bgt.n	80006aa <ssd1306_WriteChar+0x3e>
+        SSD1306_HEIGHT < (SSD1306.CurrentY + Font.height))
+ 800069c:	4b3a      	ldr	r3, [pc, #232]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 800069e:	885b      	ldrh	r3, [r3, #2]
+ 80006a0:	461a      	mov	r2, r3
+ 80006a2:	787b      	ldrb	r3, [r7, #1]
+ 80006a4:	4413      	add	r3, r2
+    if (SSD1306_WIDTH < (SSD1306.CurrentX + Font.width) ||
+ 80006a6:	2b40      	cmp	r3, #64	@ 0x40
+ 80006a8:	dd01      	ble.n	80006ae <ssd1306_WriteChar+0x42>
+    {
+        // Not enough space on current line
+        return 0;
+ 80006aa:	2300      	movs	r3, #0
+ 80006ac:	e067      	b.n	800077e <ssd1306_WriteChar+0x112>
+    }
+
+    // Use the font to write
+    for(i = 0; i < Font.height; i++) {
+ 80006ae:	2300      	movs	r3, #0
+ 80006b0:	61fb      	str	r3, [r7, #28]
+ 80006b2:	e04e      	b.n	8000752 <ssd1306_WriteChar+0xe6>
+        b = Font.data[(ch - 32) * Font.height + i];
+ 80006b4:	687a      	ldr	r2, [r7, #4]
+ 80006b6:	7bfb      	ldrb	r3, [r7, #15]
+ 80006b8:	3b20      	subs	r3, #32
+ 80006ba:	7879      	ldrb	r1, [r7, #1]
+ 80006bc:	fb01 f303 	mul.w	r3, r1, r3
+ 80006c0:	4619      	mov	r1, r3
+ 80006c2:	69fb      	ldr	r3, [r7, #28]
+ 80006c4:	440b      	add	r3, r1
+ 80006c6:	005b      	lsls	r3, r3, #1
+ 80006c8:	4413      	add	r3, r2
+ 80006ca:	881b      	ldrh	r3, [r3, #0]
+ 80006cc:	617b      	str	r3, [r7, #20]
+        for(j = 0; j < Font.width; j++) {
+ 80006ce:	2300      	movs	r3, #0
+ 80006d0:	61bb      	str	r3, [r7, #24]
+ 80006d2:	e036      	b.n	8000742 <ssd1306_WriteChar+0xd6>
+            if((b << j) & 0x8000)  {
+ 80006d4:	697a      	ldr	r2, [r7, #20]
+ 80006d6:	69bb      	ldr	r3, [r7, #24]
+ 80006d8:	fa02 f303 	lsl.w	r3, r2, r3
+ 80006dc:	f403 4300 	and.w	r3, r3, #32768	@ 0x8000
+ 80006e0:	2b00      	cmp	r3, #0
+ 80006e2:	d013      	beq.n	800070c <ssd1306_WriteChar+0xa0>
+                ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR) color);
+ 80006e4:	4b28      	ldr	r3, [pc, #160]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 80006e6:	881b      	ldrh	r3, [r3, #0]
+ 80006e8:	b2da      	uxtb	r2, r3
+ 80006ea:	69bb      	ldr	r3, [r7, #24]
+ 80006ec:	b2db      	uxtb	r3, r3
+ 80006ee:	4413      	add	r3, r2
+ 80006f0:	b2d8      	uxtb	r0, r3
+ 80006f2:	4b25      	ldr	r3, [pc, #148]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 80006f4:	885b      	ldrh	r3, [r3, #2]
+ 80006f6:	b2da      	uxtb	r2, r3
+ 80006f8:	69fb      	ldr	r3, [r7, #28]
+ 80006fa:	b2db      	uxtb	r3, r3
+ 80006fc:	4413      	add	r3, r2
+ 80006fe:	b2db      	uxtb	r3, r3
+ 8000700:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
+ 8000704:	4619      	mov	r1, r3
+ 8000706:	f7ff ff5d 	bl	80005c4 <ssd1306_DrawPixel>
+ 800070a:	e017      	b.n	800073c <ssd1306_WriteChar+0xd0>
+            } else {
+                ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR)!color);
+ 800070c:	4b1e      	ldr	r3, [pc, #120]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 800070e:	881b      	ldrh	r3, [r3, #0]
+ 8000710:	b2da      	uxtb	r2, r3
+ 8000712:	69bb      	ldr	r3, [r7, #24]
+ 8000714:	b2db      	uxtb	r3, r3
+ 8000716:	4413      	add	r3, r2
+ 8000718:	b2d8      	uxtb	r0, r3
+ 800071a:	4b1b      	ldr	r3, [pc, #108]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 800071c:	885b      	ldrh	r3, [r3, #2]
+ 800071e:	b2da      	uxtb	r2, r3
+ 8000720:	69fb      	ldr	r3, [r7, #28]
+ 8000722:	b2db      	uxtb	r3, r3
+ 8000724:	4413      	add	r3, r2
+ 8000726:	b2d9      	uxtb	r1, r3
+ 8000728:	f897 3030 	ldrb.w	r3, [r7, #48]	@ 0x30
+ 800072c:	2b00      	cmp	r3, #0
+ 800072e:	bf0c      	ite	eq
+ 8000730:	2301      	moveq	r3, #1
+ 8000732:	2300      	movne	r3, #0
+ 8000734:	b2db      	uxtb	r3, r3
+ 8000736:	461a      	mov	r2, r3
+ 8000738:	f7ff ff44 	bl	80005c4 <ssd1306_DrawPixel>
+        for(j = 0; j < Font.width; j++) {
+ 800073c:	69bb      	ldr	r3, [r7, #24]
+ 800073e:	3301      	adds	r3, #1
+ 8000740:	61bb      	str	r3, [r7, #24]
+ 8000742:	783b      	ldrb	r3, [r7, #0]
+ 8000744:	461a      	mov	r2, r3
+ 8000746:	69bb      	ldr	r3, [r7, #24]
+ 8000748:	4293      	cmp	r3, r2
+ 800074a:	d3c3      	bcc.n	80006d4 <ssd1306_WriteChar+0x68>
+    for(i = 0; i < Font.height; i++) {
+ 800074c:	69fb      	ldr	r3, [r7, #28]
+ 800074e:	3301      	adds	r3, #1
+ 8000750:	61fb      	str	r3, [r7, #28]
+ 8000752:	787b      	ldrb	r3, [r7, #1]
+ 8000754:	461a      	mov	r2, r3
+ 8000756:	69fb      	ldr	r3, [r7, #28]
+ 8000758:	4293      	cmp	r3, r2
+ 800075a:	d3ab      	bcc.n	80006b4 <ssd1306_WriteChar+0x48>
+            }
+        }
+    }
+
+    // The current space is now taken
+    SSD1306.CurrentX += Font.char_width ? Font.char_width[ch - 32] : Font.width;
+ 800075c:	4b0a      	ldr	r3, [pc, #40]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 800075e:	881b      	ldrh	r3, [r3, #0]
+ 8000760:	68ba      	ldr	r2, [r7, #8]
+ 8000762:	2a00      	cmp	r2, #0
+ 8000764:	d005      	beq.n	8000772 <ssd1306_WriteChar+0x106>
+ 8000766:	68b9      	ldr	r1, [r7, #8]
+ 8000768:	7bfa      	ldrb	r2, [r7, #15]
+ 800076a:	3a20      	subs	r2, #32
+ 800076c:	440a      	add	r2, r1
+ 800076e:	7812      	ldrb	r2, [r2, #0]
+ 8000770:	e000      	b.n	8000774 <ssd1306_WriteChar+0x108>
+ 8000772:	783a      	ldrb	r2, [r7, #0]
+ 8000774:	4413      	add	r3, r2
+ 8000776:	b29a      	uxth	r2, r3
+ 8000778:	4b03      	ldr	r3, [pc, #12]	@ (8000788 <ssd1306_WriteChar+0x11c>)
+ 800077a:	801a      	strh	r2, [r3, #0]
+
+    // Return written char for validation
+    return ch;
+ 800077c:	7bfb      	ldrb	r3, [r7, #15]
+}
+ 800077e:	4618      	mov	r0, r3
+ 8000780:	3724      	adds	r7, #36	@ 0x24
+ 8000782:	46bd      	mov	sp, r7
+ 8000784:	bd90      	pop	{r4, r7, pc}
+ 8000786:	bf00      	nop
+ 8000788:	2000041c 	.word	0x2000041c
+
+0800078c <ssd1306_WriteString>:
+
+/* Write full string to screenbuffer */
+char ssd1306_WriteString(char* str, SSD1306_Font_t Font, SSD1306_COLOR color) {
+ 800078c:	b580      	push	{r7, lr}
+ 800078e:	b086      	sub	sp, #24
+ 8000790:	af02      	add	r7, sp, #8
+ 8000792:	60f8      	str	r0, [r7, #12]
+ 8000794:	4638      	mov	r0, r7
+ 8000796:	e880 000e 	stmia.w	r0, {r1, r2, r3}
+    while (*str) {
+ 800079a:	e013      	b.n	80007c4 <ssd1306_WriteString+0x38>
+        if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 800079c:	68fb      	ldr	r3, [r7, #12]
+ 800079e:	7818      	ldrb	r0, [r3, #0]
+ 80007a0:	7e3b      	ldrb	r3, [r7, #24]
+ 80007a2:	9300      	str	r3, [sp, #0]
+ 80007a4:	463b      	mov	r3, r7
+ 80007a6:	cb0e      	ldmia	r3, {r1, r2, r3}
+ 80007a8:	f7ff ff60 	bl	800066c <ssd1306_WriteChar>
+ 80007ac:	4603      	mov	r3, r0
+ 80007ae:	461a      	mov	r2, r3
+ 80007b0:	68fb      	ldr	r3, [r7, #12]
+ 80007b2:	781b      	ldrb	r3, [r3, #0]
+ 80007b4:	429a      	cmp	r2, r3
+ 80007b6:	d002      	beq.n	80007be <ssd1306_WriteString+0x32>
+            // Char could not be written
+            return *str;
+ 80007b8:	68fb      	ldr	r3, [r7, #12]
+ 80007ba:	781b      	ldrb	r3, [r3, #0]
+ 80007bc:	e008      	b.n	80007d0 <ssd1306_WriteString+0x44>
+        }
+        str++;
+ 80007be:	68fb      	ldr	r3, [r7, #12]
+ 80007c0:	3301      	adds	r3, #1
+ 80007c2:	60fb      	str	r3, [r7, #12]
+    while (*str) {
+ 80007c4:	68fb      	ldr	r3, [r7, #12]
+ 80007c6:	781b      	ldrb	r3, [r3, #0]
+ 80007c8:	2b00      	cmp	r3, #0
+ 80007ca:	d1e7      	bne.n	800079c <ssd1306_WriteString+0x10>
+    }
+
+    // Everything ok
+    return *str;
+ 80007cc:	68fb      	ldr	r3, [r7, #12]
+ 80007ce:	781b      	ldrb	r3, [r3, #0]
+}
+ 80007d0:	4618      	mov	r0, r3
+ 80007d2:	3710      	adds	r7, #16
+ 80007d4:	46bd      	mov	sp, r7
+ 80007d6:	bd80      	pop	{r7, pc}
+
+080007d8 <ssd1306_SetCursor>:
+
+/* Position the cursor */
+void ssd1306_SetCursor(uint8_t x, uint8_t y) {
+ 80007d8:	b480      	push	{r7}
+ 80007da:	b083      	sub	sp, #12
+ 80007dc:	af00      	add	r7, sp, #0
+ 80007de:	4603      	mov	r3, r0
+ 80007e0:	460a      	mov	r2, r1
+ 80007e2:	71fb      	strb	r3, [r7, #7]
+ 80007e4:	4613      	mov	r3, r2
+ 80007e6:	71bb      	strb	r3, [r7, #6]
+    SSD1306.CurrentX = x;
+ 80007e8:	79fb      	ldrb	r3, [r7, #7]
+ 80007ea:	b29a      	uxth	r2, r3
+ 80007ec:	4b05      	ldr	r3, [pc, #20]	@ (8000804 <ssd1306_SetCursor+0x2c>)
+ 80007ee:	801a      	strh	r2, [r3, #0]
+    SSD1306.CurrentY = y;
+ 80007f0:	79bb      	ldrb	r3, [r7, #6]
+ 80007f2:	b29a      	uxth	r2, r3
+ 80007f4:	4b03      	ldr	r3, [pc, #12]	@ (8000804 <ssd1306_SetCursor+0x2c>)
+ 80007f6:	805a      	strh	r2, [r3, #2]
+}
+ 80007f8:	bf00      	nop
+ 80007fa:	370c      	adds	r7, #12
+ 80007fc:	46bd      	mov	sp, r7
+ 80007fe:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000802:	4770      	bx	lr
+ 8000804:	2000041c 	.word	0x2000041c
+
+08000808 <ssd1306_SetContrast>:
+        }
+    }
+    return;
+}
+
+void ssd1306_SetContrast(const uint8_t value) {
+ 8000808:	b580      	push	{r7, lr}
+ 800080a:	b084      	sub	sp, #16
+ 800080c:	af00      	add	r7, sp, #0
+ 800080e:	4603      	mov	r3, r0
+ 8000810:	71fb      	strb	r3, [r7, #7]
+    const uint8_t kSetContrastControlRegister = 0x81;
+ 8000812:	2381      	movs	r3, #129	@ 0x81
+ 8000814:	73fb      	strb	r3, [r7, #15]
+    ssd1306_WriteCommand(kSetContrastControlRegister);
+ 8000816:	7bfb      	ldrb	r3, [r7, #15]
+ 8000818:	4618      	mov	r0, r3
+ 800081a:	f7ff fe0d 	bl	8000438 <ssd1306_WriteCommand>
+    ssd1306_WriteCommand(value);
+ 800081e:	79fb      	ldrb	r3, [r7, #7]
+ 8000820:	4618      	mov	r0, r3
+ 8000822:	f7ff fe09 	bl	8000438 <ssd1306_WriteCommand>
+}
+ 8000826:	bf00      	nop
+ 8000828:	3710      	adds	r7, #16
+ 800082a:	46bd      	mov	sp, r7
+ 800082c:	bd80      	pop	{r7, pc}
+	...
+
+08000830 <ssd1306_SetDisplayOn>:
+
+void ssd1306_SetDisplayOn(const uint8_t on) {
+ 8000830:	b580      	push	{r7, lr}
+ 8000832:	b084      	sub	sp, #16
+ 8000834:	af00      	add	r7, sp, #0
+ 8000836:	4603      	mov	r3, r0
+ 8000838:	71fb      	strb	r3, [r7, #7]
+    uint8_t value;
+    if (on) {
+ 800083a:	79fb      	ldrb	r3, [r7, #7]
+ 800083c:	2b00      	cmp	r3, #0
+ 800083e:	d005      	beq.n	800084c <ssd1306_SetDisplayOn+0x1c>
+        value = 0xAF;   // Display on
+ 8000840:	23af      	movs	r3, #175	@ 0xaf
+ 8000842:	73fb      	strb	r3, [r7, #15]
+        SSD1306.DisplayOn = 1;
+ 8000844:	4b08      	ldr	r3, [pc, #32]	@ (8000868 <ssd1306_SetDisplayOn+0x38>)
+ 8000846:	2201      	movs	r2, #1
+ 8000848:	715a      	strb	r2, [r3, #5]
+ 800084a:	e004      	b.n	8000856 <ssd1306_SetDisplayOn+0x26>
+    } else {
+        value = 0xAE;   // Display off
+ 800084c:	23ae      	movs	r3, #174	@ 0xae
+ 800084e:	73fb      	strb	r3, [r7, #15]
+        SSD1306.DisplayOn = 0;
+ 8000850:	4b05      	ldr	r3, [pc, #20]	@ (8000868 <ssd1306_SetDisplayOn+0x38>)
+ 8000852:	2200      	movs	r2, #0
+ 8000854:	715a      	strb	r2, [r3, #5]
+    }
+    ssd1306_WriteCommand(value);
+ 8000856:	7bfb      	ldrb	r3, [r7, #15]
+ 8000858:	4618      	mov	r0, r3
+ 800085a:	f7ff fded 	bl	8000438 <ssd1306_WriteCommand>
+}
+ 800085e:	bf00      	nop
+ 8000860:	3710      	adds	r7, #16
+ 8000862:	46bd      	mov	sp, r7
+ 8000864:	bd80      	pop	{r7, pc}
+ 8000866:	bf00      	nop
+ 8000868:	2000041c 	.word	0x2000041c
+
+0800086c <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 800086c:	480d      	ldr	r0, [pc, #52]	@ (80008a4 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 800086e:	4685      	mov	sp, r0
+/* Call the clock system initialization function.*/
+  bl  SystemInit
+ 8000870:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8000874:	480c      	ldr	r0, [pc, #48]	@ (80008a8 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 8000876:	490d      	ldr	r1, [pc, #52]	@ (80008ac <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 8000878:	4a0d      	ldr	r2, [pc, #52]	@ (80008b0 <LoopForever+0xe>)
+  movs r3, #0
+ 800087a:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 800087c:	e002      	b.n	8000884 <LoopCopyDataInit>
+
+0800087e <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 800087e:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 8000880:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 8000882:	3304      	adds	r3, #4
+
+08000884 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 8000884:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 8000886:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 8000888:	d3f9      	bcc.n	800087e <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 800088a:	4a0a      	ldr	r2, [pc, #40]	@ (80008b4 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 800088c:	4c0a      	ldr	r4, [pc, #40]	@ (80008b8 <LoopForever+0x16>)
+  movs r3, #0
+ 800088e:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 8000890:	e001      	b.n	8000896 <LoopFillZerobss>
+
+08000892 <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 8000892:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 8000894:	3204      	adds	r2, #4
+
+08000896 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 8000896:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 8000898:	d3fb      	bcc.n	8000892 <FillZerobss>
+
+/* Call static constructors */
+  bl __libc_init_array
+ 800089a:	f000 f819 	bl	80008d0 <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
+ 800089e:	f7ff fc91 	bl	80001c4 <main>
+
+080008a2 <LoopForever>:
+
+LoopForever:
+  b LoopForever
+ 80008a2:	e7fe      	b.n	80008a2 <LoopForever>
+  ldr   r0, =_estack
+ 80008a4:	20018000 	.word	0x20018000
+  ldr r0, =_sdata
+ 80008a8:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 80008ac:	20000000 	.word	0x20000000
+  ldr r2, =_sidata
+ 80008b0:	080010cc 	.word	0x080010cc
+  ldr r2, =_sbss
+ 80008b4:	20000000 	.word	0x20000000
+  ldr r4, =_ebss
+ 80008b8:	20000424 	.word	0x20000424
+
+080008bc <ADC1_2_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 80008bc:	e7fe      	b.n	80008bc <ADC1_2_IRQHandler>
+
+080008be <memset>:
+ 80008be:	4402      	add	r2, r0
+ 80008c0:	4603      	mov	r3, r0
+ 80008c2:	4293      	cmp	r3, r2
+ 80008c4:	d100      	bne.n	80008c8 <memset+0xa>
+ 80008c6:	4770      	bx	lr
+ 80008c8:	f803 1b01 	strb.w	r1, [r3], #1
+ 80008cc:	e7f9      	b.n	80008c2 <memset+0x4>
+	...
+
+080008d0 <__libc_init_array>:
+ 80008d0:	b570      	push	{r4, r5, r6, lr}
+ 80008d2:	4b0d      	ldr	r3, [pc, #52]	@ (8000908 <__libc_init_array+0x38>)
+ 80008d4:	4d0d      	ldr	r5, [pc, #52]	@ (800090c <__libc_init_array+0x3c>)
+ 80008d6:	1b5b      	subs	r3, r3, r5
+ 80008d8:	109c      	asrs	r4, r3, #2
+ 80008da:	2600      	movs	r6, #0
+ 80008dc:	42a6      	cmp	r6, r4
+ 80008de:	d109      	bne.n	80008f4 <__libc_init_array+0x24>
+ 80008e0:	f000 f81a 	bl	8000918 <_init>
+ 80008e4:	4d0a      	ldr	r5, [pc, #40]	@ (8000910 <__libc_init_array+0x40>)
+ 80008e6:	4b0b      	ldr	r3, [pc, #44]	@ (8000914 <__libc_init_array+0x44>)
+ 80008e8:	1b5b      	subs	r3, r3, r5
+ 80008ea:	109c      	asrs	r4, r3, #2
+ 80008ec:	2600      	movs	r6, #0
+ 80008ee:	42a6      	cmp	r6, r4
+ 80008f0:	d105      	bne.n	80008fe <__libc_init_array+0x2e>
+ 80008f2:	bd70      	pop	{r4, r5, r6, pc}
+ 80008f4:	f855 3b04 	ldr.w	r3, [r5], #4
+ 80008f8:	4798      	blx	r3
+ 80008fa:	3601      	adds	r6, #1
+ 80008fc:	e7ee      	b.n	80008dc <__libc_init_array+0xc>
+ 80008fe:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000902:	4798      	blx	r3
+ 8000904:	3601      	adds	r6, #1
+ 8000906:	e7f2      	b.n	80008ee <__libc_init_array+0x1e>
+ 8000908:	080010c4 	.word	0x080010c4
+ 800090c:	080010c4 	.word	0x080010c4
+ 8000910:	080010c4 	.word	0x080010c4
+ 8000914:	080010c8 	.word	0x080010c8
+
+08000918 <_init>:
+ 8000918:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 800091a:	bf00      	nop
+ 800091c:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800091e:	bc08      	pop	{r3}
+ 8000920:	469e      	mov	lr, r3
+ 8000922:	4770      	bx	lr
+
+08000924 <_fini>:
+ 8000924:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000926:	bf00      	nop
+ 8000928:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800092a:	bc08      	pop	{r3}
+ 800092c:	469e      	mov	lr, r3
+ 800092e:	4770      	bx	lr
